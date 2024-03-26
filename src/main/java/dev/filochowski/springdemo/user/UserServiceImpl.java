@@ -17,8 +17,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUser(String email) {
-        log.info("Fetching user {}", email);
+        log.info("Fetching user by email: {}", email);
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional<User> getUser(Long id) {
+        log.info("Fetching user by id: {}", id);
+        return userRepository.findById(id);
     }
 
     @Override

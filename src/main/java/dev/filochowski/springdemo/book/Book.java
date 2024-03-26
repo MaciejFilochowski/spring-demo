@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -20,7 +21,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "book")
-public class Book {
+public class Book extends RepresentationModel<Book> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
