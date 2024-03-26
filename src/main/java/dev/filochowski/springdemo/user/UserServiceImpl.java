@@ -1,0 +1,62 @@
+package dev.filochowski.springdemo.user;
+
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+@Slf4j
+public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
+
+    @Override
+    public Optional<User> getUser(String email) {
+        log.info("Fetching user {}", email);
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<User> getUsers() {
+        log.info("Fetching all users");
+        return userRepository.findAll();
+    }
+
+    @Override
+    public boolean deleteUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            userRepository.delete(user.get());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public Optional<User> updateUser(Long id, User user) {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if (optionalUser.isPresent()){
+            User updatedUser = optionalUser.get();
+            if (user.getFirstname() != null) {
+                updatedUser.setFirstname(user.getFirstname());
+            }
+            if (user.getLastname() != null) {
+                updatedUser.setLastname(user.getLastname());
+            }
+            if (user.getEmail() != null) {
+                updatedUser.setEmail(user.getEmail());
+            }
+
+            return Optional.of(userRepository.save(updatedUser));
+        } else {
+            return Optional.empty();
+        }
+    }
+}

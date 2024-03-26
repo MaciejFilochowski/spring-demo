@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Welcome</title>
+</head>
+<body>
+    <p>Hello from <span th:text="${variable}" /> endpoint</p>
+    <p>IP Address: <span th:text="${ip}" /></p>
+    <p>User-Agent: <span th:text="${userAgent}" /></p>
+    <p>Current time: <span th:text="${time}" /></p>
+</body>
+</html>
