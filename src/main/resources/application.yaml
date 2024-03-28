@@ -3,6 +3,11 @@ server:
   error:
     include-message: always
 
+springdoc:
+  swagger-ui:
+    path: /doc
+    operationsSorter: method
+
 spring:
   profiles:
     active: dev
