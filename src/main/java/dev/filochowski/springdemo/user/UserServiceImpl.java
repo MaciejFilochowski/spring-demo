@@ -35,34 +35,35 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean deleteUser(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            userRepository.delete(user.get());
-            return true;
-        } else {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if (optionalUser.isEmpty()) {
             return false;
         }
+
+        userRepository.delete(optionalUser.get());
+        return true;
     }
 
     @Override
     public Optional<User> updateUser(Long id, User user) {
         Optional<User> optionalUser = userRepository.findById(id);
 
-        if (optionalUser.isPresent()){
-            User updatedUser = optionalUser.get();
-            if (user.getFirstname() != null) {
-                updatedUser.setFirstname(user.getFirstname());
-            }
-            if (user.getLastname() != null) {
-                updatedUser.setLastname(user.getLastname());
-            }
-            if (user.getEmail() != null) {
-                updatedUser.setEmail(user.getEmail());
-            }
-
-            return Optional.of(userRepository.save(updatedUser));
-        } else {
+        if (optionalUser.isEmpty()) {
             return Optional.empty();
         }
+
+        User updatedUser = optionalUser.get();
+        if (user.getFirstname() != null) {
+            updatedUser.setFirstname(user.getFirstname());
+        }
+        if (user.getLastname() != null) {
+            updatedUser.setLastname(user.getLastname());
+        }
+        if (user.getEmail() != null) {
+            updatedUser.setEmail(user.getEmail());
+        }
+
+        return Optional.of(userRepository.save(updatedUser));
     }
 }

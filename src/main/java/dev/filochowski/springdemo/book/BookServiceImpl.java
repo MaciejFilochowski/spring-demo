@@ -28,40 +28,41 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public boolean deleteBook(Long id) {
-        Optional<Book> book = bookRepository.findById(id);
-        if (book.isPresent()) {
-            bookRepository.delete(book.get());
-            return true;
-        } else {
+        Optional<Book> optionalBook = bookRepository.findById(id);
+
+        if (optionalBook.isEmpty()) {
             return false;
         }
+
+        bookRepository.delete(optionalBook.get());
+        return true;
     }
 
     @Override
     public Optional<Book> updateBook(Long id, Book book) {
         Optional<Book> optionalBook = bookRepository.findById(id);
 
-        if (optionalBook.isPresent()) {
-            Book updatedBook = optionalBook.get();
-            if (book.getTitle() != null) {
-                updatedBook.setTitle(book.getTitle());
-            }
-            if (book.getIsbn() != null) {
-                updatedBook.setIsbn(book.getIsbn());
-            }
-            if (book.getPages() != null) {
-                updatedBook.setPages(book.getPages());
-            }
-            if (book.getGenre() != null) {
-                updatedBook.setGenre(book.getGenre());
-            }
-            if (book.getPublicationDate() != null) {
-                updatedBook.setPublicationDate(book.getPublicationDate());
-            }
-
-            return Optional.of(bookRepository.save(updatedBook));
-        } else {
+        if (optionalBook.isEmpty()) {
             return Optional.empty();
         }
+
+        Book updatedBook = optionalBook.get();
+        if (book.getTitle() != null) {
+            updatedBook.setTitle(book.getTitle());
+        }
+        if (book.getIsbn() != null) {
+            updatedBook.setIsbn(book.getIsbn());
+        }
+        if (book.getPages() != null) {
+            updatedBook.setPages(book.getPages());
+        }
+        if (book.getGenre() != null) {
+            updatedBook.setGenre(book.getGenre());
+        }
+        if (book.getPublicationDate() != null) {
+            updatedBook.setPublicationDate(book.getPublicationDate());
+        }
+
+        return Optional.of(bookRepository.save(updatedBook));
     }
 }
